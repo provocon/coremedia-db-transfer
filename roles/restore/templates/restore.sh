@@ -18,6 +18,8 @@ SERVER=$1
 HOST=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3 |sed -e 's/jdbc:mysql:..\(.*\):.*$/\1/g')
 PWD=$(grep store.pass /opt/coremedia/${SERVER}*-server/*-server.properties|grep ssword|cut -d ' ' -f 3-10)
 ROLE=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3-10|cut -d '/' -f 4)
-rm -f /var/coremedia/backup/$ROLE.sql
-xz -kd /var/coremedia/backup/$ROLE.sql.xz
+if [ -f /var/coremedia/backup/$ROLE.sql.xz ] ; then
+  rm -f /var/coremedia/backup/$ROLE.sql
+  xz -kd /var/coremedia/backup/$ROLE.sql.xz
+fi
 mysql -p$PWD $ROLE -u $ROLE -h $HOST < /var/coremedia/backup/$ROLE.sql
