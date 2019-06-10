@@ -21,4 +21,5 @@ PWD=$(grep store.pass /opt/coremedia/${SERVER}*-server/*-server.properties|grep 
 ROLE=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3-10|cut -d '/' -f 4)
 mysqldump -p$PWD $ROLE -u $ROLE -h $HOST --set-gtid-purged=OFF > /var/coremedia/backup/$ROLE.sql
 rm -f /var/coremedia/backup/$ROLE.sql.xz
-xz -k9 /var/coremedia/backup/$ROLE.sql
+cat /var/coremedia/backup/$ROLE.sql | parallel --block 256m --pipe --recend '' -k xz -9 > /var/coremedia/backup/$ROLE.sql.xz
+chmod 644 /var/coremedia/backup/$ROLE.sql.xz

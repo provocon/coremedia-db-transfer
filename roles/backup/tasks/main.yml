@@ -33,6 +33,9 @@
     group: ubuntu
     mode: '0755'
 
+- name: Install Parallel Execution Tool
+  package: name=parallel update_cache=yes
+
 - name: Stop Master Live Server
   service:
     name: master-live-server
