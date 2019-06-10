@@ -72,6 +72,9 @@ studio data, which is considered transient in our projects.
 This Playbook does no restart the various components relying on the servers
 storing data - solr or content server.
 
+Also Timing is an issue not dealt with. So, restart of feeders is not delayed,
+and the end of the complete repository replay is not waited for. So a subsequent
+changing the runlevel in the Replication Live Servers has to be done manually.
 
 ## Feedback
 
