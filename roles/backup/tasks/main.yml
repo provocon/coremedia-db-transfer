@@ -54,6 +54,11 @@
     name: content-management-server
     state: stopped
 
+- name: Stop Workflow Server
+  service:
+    name: workflow-server
+    state: stopped
+    
 - name: CMS Backup
   shell: "/opt/coremedia/backup.sh content-management"
 
@@ -62,6 +67,11 @@
     name: content-management-server
     state: started
 
+- name: Start Workflow Server
+  service:
+    name: workflow-server
+    state: started
+    
 # Maybe these two work
 
 #- name: Fetch MLS Backup

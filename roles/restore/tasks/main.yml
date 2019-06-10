@@ -64,6 +64,11 @@
 - name: MLS Restore
   shell: "/opt/coremedia/restore.sh master"
 
+- name: Stop Workflow Server
+  service:
+    name: workflow-server
+    state: stopped
+    
 - name: Stop Content Management Server
   service:
     name: content-management-server
@@ -87,6 +92,11 @@
     name: content-management-server
     state: started
 
+- name: Start Workflow Server
+  service:
+    name: workflow-server
+    state: started
+    
 - name: Start Content Feeder
   service:
     name: content-feeder
