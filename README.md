@@ -64,10 +64,13 @@ and life CAEFeeder Solr Indexes know, that everything they now is outdated.
 Empty the databases, replicate everything anew and recreate index.
 
 
-## Known and intended Limitations
+## Known Limitations
 
 This Playbook does not deal with MongoDB contents like elastic social or 
 studio data, which is considered transient in our projects.
+
+This Playbook does no restart the various components relying on the servers
+storing data - solr or content server.
 
 
 ## Feedback
