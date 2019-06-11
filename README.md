@@ -73,8 +73,9 @@ This Playbook does no restart the various components relying on the servers
 storing data - solr or content server.
 
 Also Timing is an issue not dealt with. So, restart of feeders is not delayed,
-and the end of the complete repository replay is not waited for. So a subsequent
-changing the runlevel in the Replication Live Servers has to be done manually.
+and the end of the complete repository replay is not waited for. So check the 
+runlevel in the Replication Live Servers and potential related problems and
+delays manually in the log. (As you always will need to checks logs.)
 
 ## Feedback
 
