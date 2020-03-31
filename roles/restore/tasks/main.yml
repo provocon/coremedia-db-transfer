@@ -35,13 +35,13 @@
 
 - name: Push MLS Backup
   copy:
-    dest: /var/coremedia/backup/cm_master.sql.xz
-    src: "{{ backup_dir }}/cm_master.sql.xz"
+    dest: /var/coremedia/backup/cm_master.sql
+    src: "{{ backup_dir }}/cm_master.sql"
 
 - name: Push CMS Backup
   copy:
-    dest: /var/coremedia/backup/cm_management.sql.xz
-    src: "{{ backup_dir }}/cm_management.sql.xz"
+    dest: /var/coremedia/backup/cm_management.sql
+    src: "{{ backup_dir }}/cm_management.sql"
 
 - name: Stop Content Feeder
   service:
