@@ -73,7 +73,12 @@
   service:
     name: content-management-server
     state: stopped
-    
+
+- name: Stop Studio
+  service:
+    name: studio
+    state: stopped
+
 - name: CMS Restore
   shell: "/opt/coremedia/restore.sh content-management"
 
@@ -109,3 +114,8 @@
   service:
     name: caefeeder-preview
     state: restarted
+
+- name: Start Studio
+  service:
+    name: studio
+    state: started
