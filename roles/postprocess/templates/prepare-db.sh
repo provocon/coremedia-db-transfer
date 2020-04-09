@@ -23,8 +23,8 @@ if [ -z "$(echo $RESULT|grep ERROR)" ] ; then
   SEQUENCENO=$(echo $RESULT|cut -d ' ' -f 1)
   IDTAG=$(echo $RESULT|cut -d ' ' -f 2)
   echo IDTag: $IDTAG SequenceNo: $SEQUENCENO
-  sed -ie s/_sequenceno_/$SEQUENCENO/g /opt/coremedia/insert.sql
-  sed -ie s/_idtag_/$IDTAG/g /opt/coremedia/insert.sql
+  sed -i s/_sequenceno_/$SEQUENCENO/g /opt/coremedia/insert.sql
+  sed -i s/_idtag_/$IDTAG/g /opt/coremedia/insert.sql
   RESULT=$(mysql -p$PWD $ROLE -u $ROLE -h $HOST < /opt/coremedia/insert.sql 2>&1)
 fi
 echo $RESULT
