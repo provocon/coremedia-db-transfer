@@ -1,0 +1,1 @@
+SELECT sequenceno, idtag FROM ChangeLog WHERE sequenceno = (SELECT max(sequenceno) FROM ChangeLog);

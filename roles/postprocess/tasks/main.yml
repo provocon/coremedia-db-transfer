@@ -17,9 +17,54 @@
 - name: Install MySQL Client
   package: name=mysql-client-5.7 update_cache=yes
 
-- name: DB Wipe Script
+#- name: DB Wipe Script
+#  template:
+#    src: wipe-db.sh
+#    dest: /opt/coremedia
+#    owner: ubuntu
+#    group: ubuntu
+#    mode: '0755'
+
+- name: Ensure remote Backup Directory
+  file:
+    path: /var/coremedia/backup
+    owner: ubuntu
+    group: ubuntu
+    state: directory
+    mode: '0755'
+
+#- name: Push MLS Backup
+#  copy:
+#    dest: /var/coremedia/backup/cm_master.sql
+#    src: "{{ backup_dir }}/cm_master.sql"
+
+- name: MLS Restore Script
   template: 
-    src: wipe-db.sh 
+    src: restore-from-mls.sh
+    dest: /opt/coremedia
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Select Script
+  template:
+    src: select.sql
+    dest: /opt/coremedia
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Insert Script Template
+  template:
+    src: insert.sql
+    dest: /opt/coremedia
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Prepare DB Restore Script
+  template:
+    src: prepare-db.sh
     dest: /opt/coremedia
     owner: ubuntu
     group: ubuntu
@@ -30,17 +75,22 @@
     name: replication-live-server
     state: stopped
     
-- name: Wipe Database 1/4
-  shell: "/opt/coremedia/wipe-db.sh repl"
+#- name: Wipe Database 1/5
+#  shell: "/opt/coremedia/wipe-db.sh repl"
 
-- name: Wipe Database 2/4
-  shell: "/opt/coremedia/wipe-db.sh repl"
+#- name: Wipe Database 2/5
+#  shell: "/opt/coremedia/wipe-db.sh repl"
 
-- name: Wipe Database 3/4
-  shell: "/opt/coremedia/wipe-db.sh repl"
+#- name: Wipe Database 3/5
+#  shell: "/opt/coremedia/wipe-db.sh repl"
 
-- name: Wipe Database 4/4
-  shell: "/opt/coremedia/wipe-db.sh repl"
+#- name: Wipe Database 4/5
+#  shell: "/opt/coremedia/wipe-db.sh repl"
+
+#- name: Wipe Database 5/5
+#  shell: "/opt/coremedia/wipe-db.sh repl"
+
+# TODO: Push DB File
 
 - name: Start Replication Live Server
   service:
