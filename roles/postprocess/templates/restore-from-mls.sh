@@ -15,8 +15,9 @@
 #
 
 SERVER=$1
+HOSTNAME=$(hostname)
 HOST=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3 |sed -e 's/jdbc:mysql:..\(.*\):.*$/\1/g')
 PWD=$(grep store.pass /opt/coremedia/${SERVER}*-server/*-server.properties|grep ssword|cut -d ' ' -f 3-10)
 ROLE=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3-10|cut -d '/' -f 4)
-sed -i s/cm_master/cm_replication_$HOST/g /var/coremedia/backup/cm_master.sql
+sed -i s/cm_master/cm_replication_$HOSTNAME/g /var/coremedia/backup/cm_master.sql
 mysql -p$PWD $ROLE -u $ROLE -h $HOST < /var/coremedia/backup/cm_master.sql

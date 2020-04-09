@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Martin Goellnitz.
+# Copyright 2019-2020 Martin Goellnitz.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -90,7 +90,8 @@
 #- name: Wipe Database 5/5
 #  shell: "/opt/coremedia/wipe-db.sh repl"
 
-# TODO: Push DB File
+- name: MLS Restore
+  shell: "/opt/coremedia/restore-from-mls.sh repl"
 
 - name: Start Replication Live Server
   service:
