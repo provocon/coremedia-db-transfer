@@ -93,6 +93,9 @@
 - name: MLS Restore
   shell: "/opt/coremedia/restore-from-mls.sh repl"
 
+- name: Transform MLS DB to RLS Usage
+  shell: "/opt/coremedia/prepare-db.sh"
+
 - name: Start Replication Live Server
   service:
     name: replication-live-server
