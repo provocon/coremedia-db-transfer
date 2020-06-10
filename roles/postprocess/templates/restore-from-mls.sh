@@ -1,6 +1,5 @@
-#!/bin/bash
 #
-# Copyright 2019 Martin Goellnitz.
+# Copyright 2019-2020 Martin Goellnitz.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +15,9 @@
 #
 
 SERVER=$1
+HOSTNAME=$(hostname)
 HOST=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3 |sed -e 's/jdbc:mysql:..\(.*\):.*$/\1/g')
 PWD=$(grep store.pass /opt/coremedia/${SERVER}*-server/*-server.properties|grep ssword|cut -d ' ' -f 3-10)
 ROLE=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3-10|cut -d '/' -f 4)
-mysqldump -p$PWD $ROLE -u $ROLE -h $HOST --set-gtid-purged=OFF > /var/coremedia/backup/$ROLE.sql
-chmod 644 /var/coremedia/backup/$ROLE.sql
+sed -i s/cm_master/cm_replication_$HOSTNAME/g /var/coremedia/backup/cm_master.sql
+mysql -p$PWD $ROLE -u $ROLE -h $HOST < /var/coremedia/backup/cm_master.sql

@@ -1,6 +1,5 @@
-#!/bin/bash
 #
-# Copyright 2019 Martin Goellnitz.
+# Copyright 2020 Martin Goellnitz.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,5 +18,13 @@ SERVER=$1
 HOST=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3 |sed -e 's/jdbc:mysql:..\(.*\):.*$/\1/g')
 PWD=$(grep store.pass /opt/coremedia/${SERVER}*-server/*-server.properties|grep ssword|cut -d ' ' -f 3-10)
 ROLE=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3-10|cut -d '/' -f 4)
-mysqldump -p$PWD $ROLE -u $ROLE -h $HOST --set-gtid-purged=OFF > /var/coremedia/backup/$ROLE.sql
-chmod 644 /var/coremedia/backup/$ROLE.sql
+RESULT=$(mysql -p$PWD $ROLE -u $ROLE -h $HOST < /opt/coremedia/select.sql 2>&1 |tail -1)
+if [ -z "$(echo $RESULT|grep ERROR)" ] ; then
+  SEQUENCENO=$(echo $RESULT|cut -d ' ' -f 1)
+  IDTAG=$(echo $RESULT|cut -d ' ' -f 2)
+  echo IDTag: $IDTAG SequenceNo: $SEQUENCENO
+  sed -i s/_sequenceno_/$SEQUENCENO/g /opt/coremedia/insert.sql
+  sed -i s/_idtag_/$IDTAG/g /opt/coremedia/insert.sql
+  RESULT=$(mysql -p$PWD $ROLE -u $ROLE -h $HOST < /opt/coremedia/insert.sql 2>&1)
+fi
+echo $RESULT
