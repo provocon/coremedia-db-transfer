@@ -15,6 +15,9 @@
 # limitations under the License.
 #
 
+# This script can be used to wipe the database when you want to use full
+# replay of the master live server to the replication live server.
+
 SERVER="$1"
 
 HOST=$(grep store.url /opt/coremedia/${SERVER}*-server/*-server.properties|cut -d ' ' -f 3 |sed -e 's/jdbc:mysql:..\(.*\):.*$/\1/g')
